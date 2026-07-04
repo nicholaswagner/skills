@@ -1,0 +1,21 @@
+{
+  "name": "skills",
+  "version": "1.0.0",
+  "description": "My personal collection of guardrails for models that have never doubted themselves.",
+  "keywords": [
+    "skills",
+    "lm",
+    "llm",
+    "agent-skills"
+  ],
+  "homepage": "https://github.com/nicholaswagner/skills#readme",
+  "bugs": {
+    "url": "https://github.com/nicholaswagner/skills/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicholaswagner/skills.git"
+  },
+  "license": "GPL-3.0",
+  "author": "nicholaswagner"
+}
