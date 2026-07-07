@@ -1,0 +1,4 @@
+interface:
+  display_name: "Apple TV"
+  short_description: "Control Apple TV with pyatv"
+  default_prompt: "Use $apple-tv to turn on the Apple TV."
