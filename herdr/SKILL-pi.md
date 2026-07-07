@@ -71,13 +71,24 @@ herdr pane read wQ:p1 --source recent --lines 80
 
 ## Spawn a new agent and give it a task
 
-Always pass `--cwd`. The printed JSON has the new pane id at `"pane_id"`.
+A new agent gets its own tab. Do not use `pane split` for this — splits are only for processes you watch next to your own work (a server, logs, tests).
+
+Step 1 — create a tab for it. The printed JSON has the new pane id inside `"root_pane"`, for example `wQ:p5`:
 
 ```bash
-herdr agent start reviewer --cwd /path/to/repo --split right --no-focus -- pi
-herdr wait output wQ:p4 --match ">" --timeout 15000
-herdr pane run wQ:p4 "review the test coverage in src/api/"
+herdr tab create --workspace wQ --label "reviewer" --cwd /path/to/repo --no-focus
 ```
+
+Step 2 — start the agent in that pane, name it, and give it the task:
+
+```bash
+herdr pane run wQ:p5 "pi"
+herdr agent rename wQ:p5 reviewer
+herdr wait output wQ:p5 --match ">" --timeout 15000
+herdr pane run wQ:p5 "review the test coverage in src/api/"
+```
+
+For an agent working on a different project, use `herdr workspace create --cwd /path --label "name" --no-focus` in step 1 instead. Same flow: the root pane id is in its JSON.
 
 The agent is now addressable by its name:
 

@@ -13,7 +13,8 @@ Hierarchy: workspace (`wQ`) → tabs (`wQ:t1`) → panes (`wQ:p3`). Each pane is
 
 - **Ids come from output, never from memory.** Read them from `pane list` / `agent list` / `workspace list` or from create/split/start JSON (`pane split` → `result.pane.pane_id`; `agent start` → `result.agent.pane_id`). Ids can compact when things close; `1-1`-style ids are legacy.
 - **`wait output` matches only future output.** Launch first, then wait; use `pane read` for text already on screen. On timeout (exit 1), `pane read` to see what actually happened.
-- **`agent start` does not inherit the workspace cwd — always pass `--cwd`.**
+- **Placement: split for sidecars, tab for a teammate, workspace for a different project.** Splits are for processes you watch alongside your current work (server, logs, tests). A new agent with its own task gets its own tab (same project) or workspace (different project) — create the container, run the agent in its root pane.
+- **`agent start` does not inherit the workspace cwd (always pass `--cwd`) and never creates a tab** — with `--workspace`/`--tab` it splits into the existing tab. Use it only for sidecar-placed agents.
 - **`agent wait` lacks `done`.** For finished-but-unviewed, use `herdr wait agent-status <pane_id> --status done`.
 - **On `not_found`: re-run `pane list` and pick a real id.** Never retry the failed id; stop after two failures of the same command.
 - Structured commands print JSON; `pane read` prints plain text; `send-text`/`send-keys`/`run` print nothing on success.
@@ -37,13 +38,17 @@ herdr agent explain claude                             # detection rule + eviden
 
 ## Spawn an agent and give it a task
 
+New tab in the current workspace (use `workspace create --cwd ... --label ...` instead for a different project — same flow, root pane id in its JSON too):
+
 ```bash
-herdr agent start reviewer --cwd /path/to/repo --split right --no-focus -- pi
-herdr wait output wQ:p4 --match ">" --timeout 15000    # pane id from the agent_started JSON
-herdr pane run wQ:p4 "review the test coverage in src/api/"
+herdr tab create --workspace wQ --label "reviewer" --cwd /path/to/repo --no-focus   # root pane id in JSON
+herdr pane run wQ:p5 "pi"
+herdr agent rename wQ:p5 reviewer                      # optional: name it for agent-targeting
+herdr wait output wQ:p5 --match ">" --timeout 15000
+herdr pane run wQ:p5 "review the test coverage in src/api/"
 ```
 
-The name (`reviewer`) then works as a target: `agent get reviewer`, `agent read reviewer`, `agent wait reviewer --status idle`.
+The name (`reviewer`) then works as a target: `agent get reviewer`, `agent read reviewer`, `agent wait reviewer --status idle`. For a sidecar agent next to your current pane, `herdr agent start reviewer --cwd /path --split right --no-focus -- pi` does spawn + name in one command.
 
 ## Full reference
 

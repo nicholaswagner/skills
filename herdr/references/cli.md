@@ -81,6 +81,13 @@ Verified gotchas:
   `herdr wait agent-status <pane_id> --status done`.
 - `agent send` writes literal text; use `pane run` to submit a prompt
   (text + Enter).
+- `agent start` never creates a tab or workspace: with `--workspace` or
+  `--tab` it splits into that (existing) tab, so pointing it at a freshly
+  created tab leaves a stray empty root pane. Placement doctrine: split for
+  sidecars, tab for a teammate, workspace for a different project. The
+  clean non-sidecar spawn is `tab create` / `workspace create` →
+  `pane run <root_pane> "<agent cmd>"` → `agent rename <pane_id> <name>`
+  (rename works even before agent detection kicks in).
 
 ## wait
 
