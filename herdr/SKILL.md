@@ -50,6 +50,18 @@ herdr pane run wQ:p5 "review the test coverage in src/api/"
 
 The name (`reviewer`) then works as a target: `agent get reviewer`, `agent read reviewer`, `agent wait reviewer --status idle`. For a sidecar agent next to your current pane, `herdr agent start reviewer --cwd /path --split right --no-focus -- pi` does spawn + name in one command.
 
+## Spawn a worker in an isolated git worktree
+
+For parallel agents on one repo, `worktree create` makes a git worktree (under `~/.herdr/worktrees/<repo>/<branch>`) *and* a workspace rooted in it, in one command — then it's the same run + rename flow:
+
+```bash
+herdr worktree create --cwd /repo --branch task-t001 --label "T001" --no-focus   # root pane id in JSON
+herdr pane run w12:p1 "pi"
+herdr agent rename w12:p1 t001-worker
+```
+
+When the branch is merged: `herdr worktree remove --workspace w12` (removes worktree + closes workspace; refuses a dirty worktree without `--force`). `herdr worktree list --cwd /repo` shows branches, paths, and open workspace ids.
+
 ## Full reference
 
 Complete verified command surface, output shapes, and gotchas: [references/cli.md](references/cli.md). Anything not covered there (worktrees, sessions, config): `herdr <subcommand> --help`. Raw socket protocol: https://herdr.dev/docs/socket-api/

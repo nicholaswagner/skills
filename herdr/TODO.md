@@ -1,9 +1,9 @@
 # herdr skill — deferred work
 
-- **Worktrees pass** — document `herdr worktree list/create/open/remove`
-  (git worktree ↔ workspace helpers) for parallel-agent workflows on one
-  repo. Deliberately skipped in the 2026-07-07 rewrite to keep the core
-  skill small; add once the slim core proves itself with the pi agents.
+- ~~Worktrees pass~~ — done 2026-07-07: verified live (create/list/remove,
+  dirty-worktree --force behavior) and documented in SKILL.md +
+  references/cli.md. Frontier files only — workers don't create worktrees,
+  the dispatcher does, so SKILL-pi.md keeps its token budget.
 - ~~Wire up the pi variant~~ — done 2026-07-07: `~/.agents/skills/herdr/`
   is a real directory whose `SKILL.md` symlinks to this repo's
   `SKILL-pi.md`; Claude's `~/.claude/skills/herdr` symlinks to this

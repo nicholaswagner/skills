@@ -116,6 +116,30 @@ herdr workspace rename <workspace_id> <label>
 
 Without `--label`: workspaces get cwd-based names, tabs get numbers.
 
+## worktree
+
+```
+herdr worktree list [--workspace ID | --cwd PATH] [--json]
+herdr worktree create [--workspace ID | --cwd PATH] [--branch NAME] [--base REF]
+                      [--path PATH] [--label TEXT] [--focus|--no-focus] [--json]
+herdr worktree open [--workspace ID | --cwd PATH] (--path PATH | --branch NAME)
+                    [--label TEXT] [--focus|--no-focus] [--json]
+herdr worktree remove --workspace ID [--force] [--json]
+```
+
+Verified behavior:
+
+- `create` makes a git worktree at `~/.herdr/worktrees/<repo_name>/<branch>`
+  AND a new workspace rooted in it, in one command. JSON: workspace under
+  `result.workspace` (with a `worktree` object: `checkout_path`,
+  `repo_root`), root pane at `result.root_pane.pane_id`.
+- `list` shows every worktree of the repo with `branch`, `path`, and
+  `open_workspace_id` (source checkout included, `is_linked_worktree: false`).
+- `remove --workspace` removes the worktree and closes its workspace. It
+  refuses a dirty worktree (`dirty_worktree_requires_force`, exit 1) unless
+  `--force` is passed. The git branch survives removal — merge it or delete
+  it separately.
+
 ## notification
 
 ```
@@ -126,6 +150,6 @@ herdr notification show <title> [--body TEXT]
 
 ## Not covered by the skill (deliberately — see TODO.md)
 
-`worktree` (git worktree ↔ workspace helpers), `session`, `integration`,
-`config`, `channel`, `server`, `status`, `update`. Run `herdr <sub> --help`
+`session`, `integration`, `config`, `channel`, `server`, `status`,
+`update`. Run `herdr <sub> --help`
 if needed; the raw socket protocol is at https://herdr.dev/docs/socket-api/.
