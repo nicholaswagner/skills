@@ -139,6 +139,10 @@ Verified behavior:
   refuses a dirty worktree (`dirty_worktree_requires_force`, exit 1) unless
   `--force` is passed. The git branch survives removal — merge it or delete
   it separately.
+- If the source repo has no open workspace, `worktree create --cwd <repo>`
+  also opens a workspace for the source checkout — and `worktree remove`
+  does NOT close that one. After tearing down worktrees, check
+  `workspace list` for a stray source workspace.
 
 ## notification
 
