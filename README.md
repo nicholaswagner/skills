@@ -7,8 +7,10 @@ they work equally well with [Claude](https://claude.ai) and [Codex](https://chat
 
 ## Installing skills
 
-Skills live once in this repo and are made available to an agent by
-symlinking them into that agent's skill directory:
+Frontier skills live at the repo root. Crisp skills live under
+[`crisp/`](./crisp/) as compact, explicit variants for bounded-context models.
+Either variant is made available to an agent by symlinking it into that
+agent's skill directory:
 
 | Agent | Skill directory |
 | --- | --- |
@@ -22,19 +24,22 @@ plain CLI — symlink `linkr/scripts/linkr.sh` onto your PATH as `linkr`):
 ```sh
 linkr list                  # state of every skill × agent
 linkr link tv codex         # make a skill available to one agent
+linkr link herdr --crisp    # link the crisp variant everywhere
 linkr enable yt-dlp         # link a skill for all agents
 linkr disable herdr pi      # park a link without losing it
 linkr unlink vhs claude     # remove a link
 ```
 
-Anything added to this repo with a `SKILL.md` is picked up automatically —
-no registration needed.
+Anything added to this repo with a `SKILL.md` is picked up automatically:
+root skills show as `frontier`, while `crisp/<skill>/` entries show as
+`crisp`.
 
 ## The skills
 
 | Skill | What it does |
 | --- | --- |
 | [`analytical-wit`](./analytical-wit/) | An experiment in creating a stable AI voice inspired by the analytical, conversational style of my favorite comedian, [Dara Ó Briain](https://x.com/daraobriain). It combines routing, examples, and drift controls so humor emerges from reasoning instead of being stapled on afterward. |
+| [`apple-define`](./apple-define/) | Looks up definitions from the local macOS Apple Dictionary through DictionaryServices. |
 | [`apple-tv`](./apple-tv/) | Controls Apple TV devices on the local network with [pyatv](https://pyatv.dev/) for pairing, power, app launching, and remote input. |
 | [`conventional-commits`](./conventional-commits/) | Inspects Git changes, drafts [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/#specification) messages, and creates commits only when explicitly asked. |
 | [`convert-pdf`](./convert-pdf/) | Uses [Poppler](https://poppler.freedesktop.org/) utilities to convert PDFs to text, HTML, or images; extract embedded images; and split or merge documents. |
