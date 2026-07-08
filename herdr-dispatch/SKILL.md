@@ -9,6 +9,12 @@ You are the dispatcher for one spec. You own it from plan to review-ready. You d
 
 Everything runs in visible herdr panes. Never use headless invocations (`claude -p`, `codex exec`); spawn interactive sessions and drive them with `pane run`.
 
+## Spawning a dispatcher
+
+For the author (or an agent acting for them) putting a dispatcher in a pane: the spawn is not complete until the briefing is sent. An agent sitting at its startup screen with no prompt is half a spawn — the role exists only in your head, and it will idle forever. After the session is up, send [dispatcher-briefing.md](dispatcher-briefing.md) with its placeholders filled, as one pane message, and wait for the readiness confirmation.
+
+Pre-flight: confirm the target vendor actually has this skill linked (`linkr list`) before spawning. A codex dispatcher without `~/.codex/skills/herdr-dispatch` reads the briefing's "read the herdr-dispatch skill" line and finds nothing.
+
 ## Inputs
 
 - A spec directory: `specs/NNN-name/` with `spec.md` (required), `plan.md` and `tasks.md` (generate from spec.md if missing).
